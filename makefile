@@ -5,11 +5,17 @@ CFLAGS=-c -Wall
 
 all: nozzle
 
-nozzle:  memory2d.o iniflow.o bcond.o rgrid.o inigrid.o tstep.o lrroe.o lrmovers.o fluxroe.o fluxmovers.o solver.o srcterm.o minmodlim.o conver.o wsolut.o main.o 
-	$(CC) memory2d.o iniflow.o bcond.o rgrid.o inigrid.o tstep.o lrroe.o lrmovers.o fluxroe.o fluxmovers.o solver.o srcterm.o minmodlim.o conver.o wsolut.o main.o -o nozzle
+nozzle:  memory2d.o iniflow.o bcond.o rgrid.o inigrid.o tstep.o lrroe.o lrmovers.o lrmovers_plus.o fluxroe.o fluxmovers.o fluxmovers_plus.o solver.o srcterm.o minmodlim.o conver.o wsolut.o main.o 
+	$(CC) memory2d.o iniflow.o bcond.o rgrid.o inigrid.o tstep.o lrroe.o lrmovers.o lrmovers_plus.o fluxroe.o fluxmovers.o fluxmovers_plus.o solver.o srcterm.o minmodlim.o conver.o wsolut.o main.o -o nozzle
 
 memory2d.o: memory2d.cpp
 	$(CC) $(CFLAGS) memory2d.cpp
+
+lrmovers_plus.o: lrmovers_plus.cpp
+	$(CC) $(CFLAGS) lrmovers_plus.cpp
+
+fluxmovers_plus.o: fluxmovers_plus.cpp
+	$(CC) $(CFLAGS) fluxmovers_plus.cpp
 
 rgrid.o: rgrid.cpp
 	$(CC) $(CFLAGS) rgrid.cpp

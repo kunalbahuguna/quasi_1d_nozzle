@@ -2,7 +2,8 @@
 
 /*******************sets boundary conditions at the inlet and outlet of the nozzle************************/
 
-void Bcond(int &imax, int &ib2, double *& a, double **& cv, double *& p){
+void Bcond(int &imax, int &ib2, double *& a, double **& cv, double *& p)
+{
 	
 	double u, cs2, c02, rinv, dis, cb, cc02, tb, pb, rhob, rho, cs, ub;
 

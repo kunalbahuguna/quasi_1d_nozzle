@@ -3,7 +3,8 @@
 
 /****function to compute control volumes****/
 
-void Inigrid(int &imax, int &ib2, double *&x, double *&a, double *&vol){
+void Inigrid(int &imax, int &ib2, double *&x, double *&a, double *&vol)
+{
 	
 	double da;
 

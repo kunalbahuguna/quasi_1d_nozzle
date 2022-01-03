@@ -34,7 +34,8 @@ void Solver(ofstream &ofile_conv, int &iter, int &imax, int &ib2, int mxdum, dou
 
 /**** flux difference splitting****/
 		
-		if(c[1]=='R'){
+		if(c[1]=='R')
+		{
 			LR_State_roe(imax, ib2, a, vol, cv, p);
 			Flux_roe(imax, ib2, a, ls, rs);
 		}
@@ -44,15 +45,20 @@ void Solver(ofstream &ofile_conv, int &iter, int &imax, int &ib2, int mxdum, dou
 			Minmod_lim(imax, ib2, a, vol, cv);
 			Flux_movers(imax, ib2, a, ls, rs, cvrs, cvls);		
 		}
-		
-		else{
+		else if(c[1]=='K')
+		{
+			LR_State_movers_plus(imax, ib2, a, vol, cv, p);		
+			Minmod_lim(imax, ib2, a, vol, cv);
+			Flux_movers_plus(imax, ib2, a, ls, rs, cvrs, cvls);		
+		}
+		else
+		{
 			cout<<"wrong input to the type of scheme to be used"<<endl;
 			exit(0);
 		}
 
 /**** source term****/
 		Srcterm(imax, ib2, a, p);
-
 /**** residual timestep****/	
 		fac = ark[irk]*cfl;
 	

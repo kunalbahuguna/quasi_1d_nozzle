@@ -7,7 +7,8 @@
 /***************for expressions on total quantities see Modern Compressible flow by Anderson., page 59***************/
 
 
-void Iniflow(int &imax, double *&a, double **&cv, double *&p){
+void Iniflow(int &imax, double *&a, double **&cv, double *&p)
+{
 
 	double temp, rho, mach, cs, u, mass, e;
 	
@@ -22,11 +23,12 @@ void Iniflow(int &imax, double *&a, double **&cv, double *&p){
 
 /*********initialize flow field*************/
 
-	for(int j=1; j<=imax; j++){
+	for(int j=1; j<=imax; j++)
+	{
 		cv[0][j] = rho*a[j];
 		cv[1][j] = mass;
 		cv[2][j] = rho*e*a[j];
- 		p[j]     = p2;
+ 		p[j]     = p2;//Outlet static pressure
 	}
 	
 /**********limiter reference values************/

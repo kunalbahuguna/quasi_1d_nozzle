@@ -26,7 +26,7 @@ rest_r
 # --------------------
  1.5      # CFL-number
  0.8      # coefficient of implicit residual smoothing
- M        # M=central scheme movers/ R=Roe's upwind scheme
+ K        # M=central scheme movers/ R=Roe's upwind scheme / K=Movers+
  0.0      # artificial dissipation coefficient - k2   (central scheme)
  0.0      # artificial dissipation coefficient - 1/k4 (central scheme)
  1        # space: 1=1st-order / 2=2nd-order / 3=kappa=1/3 (Roe's scheme)

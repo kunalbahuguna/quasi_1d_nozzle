@@ -165,7 +165,8 @@ void Read_input(ifstream & infile){
 	cout<<endl;
 }
 
-int main(){
+int main()
+{
 	
 	int iter=0;
 	ifstream filename;

@@ -11,7 +11,7 @@ T Min3(T a1, T a2, T a3);
 
 
 
-void Flux_movers(int &imax, int &ib2, double *&a, double **&ls, double **&rs, double **cvrs, double **cvls)
+void Flux_movers_plus(int &imax, int &ib2, double *&a, double **&ls, double **&rs, double **cvrs, double **cvls)
 {
 	double **f;
 	double *fcav, *fdiss, *lambdar, *lambdal, *movers;
@@ -64,19 +64,24 @@ void Flux_movers(int &imax, int &ib2, double *&a, double **&ls, double **&rs, do
 		movers[1]=Movers(qrr*ur+pr, qrl*ul+pl, qrr, qrl, lmax, lmin);
 		movers[2]=Movers(qrr*hr, qrl*hl, rr*er, rl*el, lmax, lmin);
 		
+		double a=1,phi;
+    	phi=fabs((0.5*(pr-pl)/(pr+pl)));
 		if(iorder==1)
 		{	
-			fdiss[0] = (movers[0]+minmodlim[0][j]*(max(lambdar[1], lambdal[1])-movers[0]))*(rr-rl);
-			fdiss[1] = (movers[1]+minmodlim[1][j]*(max(lambdar[1], lambdal[1])-movers[1]))*(qrr-qrl);
-			fdiss[2] = (movers[2]+minmodlim[2][j]*(max(lambdar[1], lambdal[1])-movers[2]))*(rr*er-rl*el);
+			fdiss[0]=-(-a*phi*sign(rr-rl)*fabs(qrr-qrl)-0.5*(fabs(ur)+fabs(ul))*(rr-rl));
+			fdiss[1]=-(-a*phi*sign(qrr-qrl)*fabs((qrr*ur+pr)-(qrl*ul+pl))-0.5*(fabs(ur)+fabs(ul))*(qrr-qrl));
+			fdiss[2]=-(-a*phi*sign(rr*er-rl*el)*fabs(qrr*hr-qrl*hl)-0.5*(fabs(ur)+fabs(ul))*(rr*er-rl*el));
+			//fdiss[0] = (movers[0]+minmodlim[0][j]*(max(lambdar[1], lambdal[1])-movers[0]))*(rr-rl);
+			//fdiss[1] = (movers[1]+minmodlim[1][j]*(max(lambdar[1], lambdal[1])-movers[1]))*(qrr-qrl);
+			//fdiss[2] = (movers[2]+minmodlim[2][j]*(max(lambdar[1], lambdal[1])-movers[2]))*(rr*er-rl*el);
 		}
-		else if(iorder==2){	
+		else if(iorder==2)
+		{	
 			fdiss[0] = (movers[0]+minmodlim[0][j]*(max(lambdar[1], lambdal[1])-movers[0]))*(cvrs[0][j]-cvls[0][j]);
 			fdiss[1] = (movers[1]+minmodlim[1][j]*(max(lambdar[1], lambdal[1])-movers[1]))*(cvrs[1][j]-cvls[1][j]);
 			fdiss[2] = (movers[2]+minmodlim[2][j]*(max(lambdar[1], lambdal[1])-movers[2]))*(cvrs[2][j]-cvls[2][j]);
 		}	
-		else
-		{
+		else{
 			cout<<"wrong input for order of accuracy"<<endl;
 		}			
 	
@@ -93,8 +98,7 @@ void Flux_movers(int &imax, int &ib2, double *&a, double **&ls, double **&rs, do
 
 /****summ of fluxes = RHS ****/
 	
-	for(int j=2; j<=ib2; j++)
-	{
+	for(int j=2; j<=ib2; j++){
 		rhs[0][j] = f[0][j]-f[0][j-1];	
 		rhs[1][j] = f[1][j]-f[1][j-1];
 		rhs[2][j] = f[2][j]-f[2][j-1];
@@ -181,8 +185,7 @@ T Movers(T Fr, T Fl, T Ur,T Ul,T L_max, T L_min)
 
 /****to compute maximum value of 3 parameters****/
 template <typename T>
-T Max3(T a1, T a2, T a3)
-{
+T Max3(T a1, T a2, T a3){
 
 	if (a1>=a2 && a1>=a3) return a1;
 	else if (a2>=a3 && a2>=a1) return a2;
@@ -192,11 +195,20 @@ T Max3(T a1, T a2, T a3)
 
 /****to compute minimum value of 3 parameters****/
 template <typename T>
-T Min3(T a1, T a2, T a3)
-{
+T Min3(T a1, T a2, T a3){
 
 	if (a1<=a2 && a1<=a3) return a1;
 	else if (a2<=a3 && a2<=a1) return a2;
 	else return a3;
 
+}
+
+int sign(double a)
+{
+	if(a>0)
+		return(1);
+	else if(a<0)
+		return(-1);
+	else
+		return(0);
 }
